@@ -1,4 +1,4 @@
--- Classico Horror UI Library Source Code (English Version)
+-- Classico Horror UI Library Source Code (English Version - Updated)
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -518,6 +518,128 @@ function ClassicoLib:CreateWindow(config)
 				else
 					dropFrame.Size = UDim2.new(1, -10, 0, 36)
 				end
+			end)
+		end
+
+		-- 🟢 إضافة السلايدر (Slider)
+		function TabObject:CreateSlider(text, min, max, default, callback)
+			min = min or 0
+			max = max or 100
+			default = default or min
+
+			local sliderFrame = Instance.new("Frame")
+			sliderFrame.Size = UDim2.new(1, -10, 0, 45)
+			sliderFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			sliderFrame.BorderSizePixel = 0
+			sliderFrame.Parent = page
+			applyHorrorBevel(sliderFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+
+			local label = Instance.new("TextLabel")
+			label.Size = UDim2.new(0.6, 0, 0, 22)
+			label.Position = UDim2.new(0, 10, 0, 2)
+			label.BackgroundTransparency = 1
+			label.Text = text
+			label.TextColor3 = Color3.fromRGB(220, 220, 220)
+			label.Font = Enum.Font.Creepster
+			label.TextSize = 17
+			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.Parent = sliderFrame
+
+			local valLbl = Instance.new("TextLabel")
+			valLbl.Size = UDim2.new(0.35, -10, 0, 22)
+			valLbl.Position = UDim2.new(0.65, 0, 0, 2)
+			valLbl.BackgroundTransparency = 1
+			valLbl.Text = tostring(default)
+			valLbl.TextColor3 = accentColor
+			valLbl.Font = Enum.Font.Creepster
+			valLbl.TextSize = 17
+			valLbl.TextXAlignment = Enum.TextXAlignment.Right
+			valLbl.Parent = sliderFrame
+
+			local barBack = Instance.new("Frame")
+			barBack.Size = UDim2.new(1, -20, 0, 10)
+			barBack.Position = UDim2.new(0, 10, 0, 28)
+			barBack.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+			barBack.BorderSizePixel = 0
+			barBack.Parent = sliderFrame
+			applyHorrorBevel(barBack, Color3.fromRGB(40, 0, 0), Color3.fromRGB(80, 0, 0))
+
+			local fillBar = Instance.new("Frame")
+			fillBar.Size = UDim2.new(math.clamp((default - min) / (max - min), 0, 1), 0, 1, 0)
+			fillBar.BackgroundColor3 = accentColor
+			fillBar.BorderSizePixel = 0
+			fillBar.Parent = barBack
+
+			local isSliding = false
+
+			local function updateSlider(input)
+				local pos = math.clamp((input.Position.X - barBack.AbsolutePosition.X) / barBack.AbsoluteSize.X, 0, 1)
+				fillBar.Size = UDim2.new(pos, 0, 1, 0)
+				local value = math.floor(min + (max - min) * pos)
+				valLbl.Text = tostring(value)
+				if callback then callback(value) end
+			end
+
+			barBack.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					isSliding = true
+					clickSound:Play()
+					updateSlider(input)
+				end
+			end)
+
+			UserInputService.InputChanged:Connect(function(input)
+				if isSliding and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+					updateSlider(input)
+				end
+			end)
+
+			UserInputService.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+					isSliding = false
+				end
+			end)
+		end
+
+		-- 🟢 إضافة خانة الكتابة (TextBox / Input)
+		function TabObject:CreateTextBox(text, placeholder, callback)
+			placeholder = placeholder or "Type here..."
+
+			local inputFrame = Instance.new("Frame")
+			inputFrame.Size = UDim2.new(1, -10, 0, 36)
+			inputFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			inputFrame.BorderSizePixel = 0
+			inputFrame.Parent = page
+			applyHorrorBevel(inputFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+
+			local label = Instance.new("TextLabel")
+			label.Size = UDim2.new(0.5, -10, 1, 0)
+			label.Position = UDim2.new(0, 10, 0, 0)
+			label.BackgroundTransparency = 1
+			label.Text = text
+			label.TextColor3 = Color3.fromRGB(220, 220, 220)
+			label.Font = Enum.Font.Creepster
+			label.TextSize = 18
+			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.Parent = inputFrame
+
+			local textBox = Instance.new("TextBox")
+			textBox.Size = UDim2.new(0.48, -10, 0, 26)
+			textBox.Position = UDim2.new(0.5, 0, 0, 5)
+			textBox.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+			textBox.BorderSizePixel = 0
+			textBox.Text = ""
+			textBox.PlaceholderText = placeholder
+			textBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+			textBox.TextColor3 = Color3.fromRGB(255, 200, 200)
+			textBox.Font = Enum.Font.Creepster
+			textBox.TextSize = 16
+			textBox.Parent = inputFrame
+			applyHorrorBevel(textBox, Color3.fromRGB(80, 0, 0), Color3.fromRGB(30, 0, 0))
+
+			textBox.FocusLost:Connect(function(enterPressed)
+				clickSound:Play()
+				if callback then callback(textBox.Text, enterPressed) end
 			end)
 		end
 
