@@ -1,4 +1,4 @@
--- Classico Horror UI Library Source Code
+-- Classico Horror UI Library Source Code (English Version)
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -236,10 +236,10 @@ function ClassicoLib:CreateWindow(config)
 		msgLbl.Size = UDim2.new(1, -20, 0, 50)
 		msgLbl.Position = UDim2.new(0, 10, 0, 10)
 		msgLbl.BackgroundTransparency = 1
-		msgLbl.Text = "هل أنت متأكد من حذف وإغلاق السكربت؟"
+		msgLbl.Text = "Are you sure you want to close and destroy the script?"
 		msgLbl.TextColor3 = Color3.fromRGB(255, 180, 180)
 		msgLbl.Font = Enum.Font.Creepster
-		msgLbl.TextSize = 18
+		msgLbl.TextSize = 16
 		msgLbl.TextWrapped = true
 		msgLbl.ZIndex = 11
 		msgLbl.Parent = confirmFrame
@@ -249,7 +249,7 @@ function ClassicoLib:CreateWindow(config)
 		yesBtn.Position = UDim2.new(0, 20, 0, 75)
 		yesBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 		yesBtn.BorderSizePixel = 0
-		yesBtn.Text = "نعم، إغلاق"
+		yesBtn.Text = "Yes, Close"
 		yesBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 		yesBtn.Font = Enum.Font.Creepster
 		yesBtn.TextSize = 16
@@ -262,7 +262,7 @@ function ClassicoLib:CreateWindow(config)
 		noBtn.Position = UDim2.new(1, -130, 0, 75)
 		noBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 		noBtn.BorderSizePixel = 0
-		noBtn.Text = "إلغاء"
+		noBtn.Text = "Cancel"
 		noBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
 		noBtn.Font = Enum.Font.Creepster
 		noBtn.TextSize = 16
@@ -472,7 +472,7 @@ function ClassicoLib:CreateWindow(config)
 			selectBtn.Position = UDim2.new(0.5, 0, 0, 5)
 			selectBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
 			selectBtn.BorderSizePixel = 0
-			selectBtn.Text = "اختر..."
+			selectBtn.Text = "Select..."
 			selectBtn.TextColor3 = Color3.fromRGB(255, 200, 200)
 			selectBtn.Font = Enum.Font.Creepster
 			selectBtn.TextSize = 16
