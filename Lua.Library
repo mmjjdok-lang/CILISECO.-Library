@@ -1,4 +1,4 @@
--- CLASSICO CILISECO LIBRARY (Scrollable Tabs Edition)
+-- CLASSICO CILISECO LIBRARY (Github Standard + Horizontal Scrollable Tabs)
 local ClassicoLib = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -70,7 +70,7 @@ function ClassicoLib:CreateWindow(options)
 	TitleLabel.Parent = TopBar
 
 	----------------------------------------------------
-	-- SCROLLABLE TAB CONTAINER (HORIZONTAL)
+	-- SCROLLABLE TAB CONTAINER (سحب لليمين واليسار)
 	----------------------------------------------------
 	local TabContainer = Instance.new("ScrollingFrame")
 	TabContainer.Name = "TabContainer"
@@ -79,8 +79,7 @@ function ClassicoLib:CreateWindow(options)
 	TabContainer.BackgroundTransparency = 1
 	TabContainer.BorderSizePixel = 0
 	TabContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
-	TabContainer.ScrollBarThickness = 2
-	TabContainer.ScrollBarImageColor3 = Color3.fromRGB(180, 0, 0)
+	TabContainer.ScrollBarThickness = 0 -- إخفاء شريط التمرير المزعج لتبقى بنفس الشكل
 	TabContainer.ScrollingDirection = Enum.ScrollingDirection.X
 	TabContainer.HorizontalScrollBarInset = Enum.ScrollBarInset.None
 	TabContainer.Parent = MainFrame
@@ -91,7 +90,7 @@ function ClassicoLib:CreateWindow(options)
 	TabListLayout.Padding = UDim.new(0, 6)
 	TabListLayout.Parent = TabContainer
 
-	-- Auto Adjust Canvas Size Based on Tab Count
+	-- تعديل الحجم التلقائي لاستيعاب أي عدد تبويبات دون خروجها
 	TabListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 		TabContainer.CanvasSize = UDim2.new(0, TabListLayout.AbsoluteContentSize.X + 10, 0, 0)
 	end)
@@ -453,4 +452,3 @@ function ClassicoLib:CreateWindow(options)
 end
 
 return ClassicoLib
- 
