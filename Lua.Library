@@ -1,4 +1,4 @@
--- Classico Horror UI Library Source Code (English Version - Horizontal Scrollable Tabs)
+-- Classico Horror UI Library Source Code (Ultra Glossy 8K Edition)
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -22,31 +22,35 @@ local function applyHorrorBevel(frame, lightColor, darkColor)
 	local top = Instance.new("Frame")
 	top.Name = "BevelTop"
 	top.Size = UDim2.new(1, 0, 0, 2)
-	top.BackgroundColor3 = lightColor or Color3.fromRGB(180, 0, 0)
+	top.BackgroundColor3 = lightColor or Color3.fromRGB(255, 0, 0)
 	top.BorderSizePixel = 0
+	top.ZIndex = frame.ZIndex + 2
 	top.Parent = frame
 
 	local left = Instance.new("Frame")
 	left.Name = "BevelLeft"
 	left.Size = UDim2.new(0, 2, 1, 0)
-	left.BackgroundColor3 = lightColor or Color3.fromRGB(180, 0, 0)
+	left.BackgroundColor3 = lightColor or Color3.fromRGB(255, 0, 0)
 	left.BorderSizePixel = 0
+	left.ZIndex = frame.ZIndex + 2
 	left.Parent = frame
 
 	local bottom = Instance.new("Frame")
 	bottom.Name = "BevelBottom"
 	bottom.Size = UDim2.new(1, 0, 0, 2)
 	bottom.Position = UDim2.new(0, 0, 1, -2)
-	bottom.BackgroundColor3 = darkColor or Color3.fromRGB(50, 0, 0)
+	bottom.BackgroundColor3 = darkColor or Color3.fromRGB(80, 0, 0)
 	bottom.BorderSizePixel = 0
+	bottom.ZIndex = frame.ZIndex + 2
 	bottom.Parent = frame
 
 	local right = Instance.new("Frame")
 	right.Name = "BevelRight"
 	right.Size = UDim2.new(0, 2, 1, 0)
 	right.Position = UDim2.new(1, -2, 0, 0)
-	right.BackgroundColor3 = darkColor or Color3.fromRGB(50, 0, 0)
+	right.BackgroundColor3 = darkColor or Color3.fromRGB(80, 0, 0)
 	right.BorderSizePixel = 0
+	right.ZIndex = frame.ZIndex + 2
 	right.Parent = frame
 end
 
@@ -57,7 +61,7 @@ function ClassicoLib:CreateWindow(config)
 	local windowSize = config.Size or UDim2.new(0, 586, 0, 350)
 	local mainBgColor = config.MainColor or Color3.fromRGB(15, 15, 15)
 	local headerColor = config.HeaderColor or Color3.fromRGB(30, 0, 0)
-	local accentColor = config.BevelColor or Color3.fromRGB(220, 0, 0)
+	local accentColor = config.BevelColor or Color3.fromRGB(255, 30, 30)
 
 	local screenGui = Instance.new("ScreenGui")
 	screenGui.Name = "ClassicoHorrorGUI"
@@ -86,9 +90,10 @@ function ClassicoLib:CreateWindow(config)
 		notifFrame.Size = UDim2.new(1, 0, 0, 60)
 		notifFrame.BackgroundColor3 = mainBgColor
 		notifFrame.BorderSizePixel = 0
+		notifFrame.ZIndex = 20
 		notifFrame.Parent = notifContainer
 
-		applyHorrorBevel(notifFrame, accentColor, Color3.fromRGB(50, 0, 0))
+		applyHorrorBevel(notifFrame, accentColor, Color3.fromRGB(80, 0, 0))
 
 		local titleLbl = Instance.new("TextLabel")
 		titleLbl.Size = UDim2.new(1, -10, 0, 22)
@@ -99,6 +104,7 @@ function ClassicoLib:CreateWindow(config)
 		titleLbl.Font = Enum.Font.Creepster
 		titleLbl.TextSize = 18
 		titleLbl.TextXAlignment = Enum.TextXAlignment.Left
+		titleLbl.ZIndex = 21
 		titleLbl.Parent = notifFrame
 
 		local textLbl = Instance.new("TextLabel")
@@ -110,6 +116,7 @@ function ClassicoLib:CreateWindow(config)
 		textLbl.Font = Enum.Font.Creepster
 		textLbl.TextSize = 15
 		textLbl.TextXAlignment = Enum.TextXAlignment.Left
+		textLbl.ZIndex = 21
 		textLbl.Parent = notifFrame
 
 		clickSound:Play()
@@ -137,27 +144,51 @@ function ClassicoLib:CreateWindow(config)
 	mainFrame.Active = true
 	mainFrame.ClipsDescendants = true
 	mainFrame.Visible = false
+	mainFrame.ZIndex = 1
 	mainFrame.Parent = screenGui
 
-	applyHorrorBevel(mainFrame, accentColor, Color3.fromRGB(50, 0, 0))
+	-- صورة الخلفية المخصصة
+	local bgImage = Instance.new("ImageLabel")
+	bgImage.Name = "BackgroundImage"
+	bgImage.Size = UDim2.new(1, 0, 1, 0)
+	bgImage.Position = UDim2.new(0, 0, 0, 0)
+	bgImage.Image = "rbxassetid://134674955517480"
+	bgImage.ScaleType = Enum.ScaleType.Crop
+	bgImage.BackgroundTransparency = 1
+	bgImage.ZIndex = 1
+	bgImage.Parent = mainFrame
+
+	-- طبقة لمعان عالية الجودة (Glow Overlay)
+	local glossGlow = Instance.new("Frame")
+	glossGlow.Name = "GlossGlow"
+	glossGlow.Size = UDim2.new(1, 0, 1, 0)
+	glossGlow.BackgroundTransparency = 0.85
+	glossGlow.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+	glossGlow.ZIndex = 2
+	glossGlow.Parent = mainFrame
+
+	applyHorrorBevel(mainFrame, Color3.fromRGB(255, 60, 60), Color3.fromRGB(80, 0, 0))
 
 	local headerPanel = Instance.new("Frame")
 	headerPanel.Size = UDim2.new(1, -12, 0, 48)
 	headerPanel.Position = UDim2.new(0, 6, 0, 6)
 	headerPanel.BackgroundColor3 = headerColor
+	headerPanel.BackgroundTransparency = 0.2
 	headerPanel.BorderSizePixel = 0
+	headerPanel.ZIndex = 3
 	headerPanel.Parent = mainFrame
-	applyHorrorBevel(headerPanel, accentColor, Color3.fromRGB(80, 0, 0))
+	applyHorrorBevel(headerPanel, Color3.fromRGB(255, 80, 80), Color3.fromRGB(100, 0, 0))
 
 	local titleLbl = Instance.new("TextLabel")
 	titleLbl.Size = UDim2.new(1, -90, 0, 24)
 	titleLbl.Position = UDim2.new(0, 10, 0, 2)
 	titleLbl.BackgroundTransparency = 1
 	titleLbl.Text = title
-	titleLbl.TextColor3 = accentColor
+	titleLbl.TextColor3 = Color3.fromRGB(255, 80, 80)
 	titleLbl.TextSize = 20
 	titleLbl.Font = Enum.Font.Creepster
 	titleLbl.TextXAlignment = Enum.TextXAlignment.Left
+	titleLbl.ZIndex = 4
 	titleLbl.Parent = headerPanel
 
 	local subTitleLbl = Instance.new("TextLabel")
@@ -165,43 +196,48 @@ function ClassicoLib:CreateWindow(config)
 	subTitleLbl.Position = UDim2.new(0, 10, 0, 24)
 	subTitleLbl.BackgroundTransparency = 1
 	subTitleLbl.Text = subTitle
-	subTitleLbl.TextColor3 = Color3.fromRGB(170, 170, 170)
+	subTitleLbl.TextColor3 = Color3.fromRGB(220, 220, 220)
 	subTitleLbl.TextSize = 14
 	subTitleLbl.Font = Enum.Font.Creepster
 	subTitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+	subTitleLbl.ZIndex = 4
 	subTitleLbl.Parent = headerPanel
 
 	local minimizeBtn = Instance.new("TextButton")
 	minimizeBtn.Size = UDim2.new(0, 26, 0, 24)
 	minimizeBtn.Position = UDim2.new(1, -60, 0, 12)
-	minimizeBtn.BackgroundColor3 = Color3.fromRGB(40, 0, 0)
+	minimizeBtn.BackgroundColor3 = Color3.fromRGB(60, 0, 0)
 	minimizeBtn.BorderSizePixel = 0
 	minimizeBtn.Text = "-"
-	minimizeBtn.TextColor3 = Color3.fromRGB(255, 50, 50)
+	minimizeBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
 	minimizeBtn.Font = Enum.Font.Creepster
 	minimizeBtn.TextSize = 22
+	minimizeBtn.ZIndex = 4
 	minimizeBtn.Parent = headerPanel
 	applyHorrorBevel(minimizeBtn)
 
 	local closeBtn = Instance.new("TextButton")
 	closeBtn.Size = UDim2.new(0, 26, 0, 24)
 	closeBtn.Position = UDim2.new(1, -30, 0, 12)
-	closeBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+	closeBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
 	closeBtn.BorderSizePixel = 0
 	closeBtn.Text = "X"
 	closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 	closeBtn.Font = Enum.Font.Creepster
 	closeBtn.TextSize = 20
+	closeBtn.ZIndex = 4
 	closeBtn.Parent = headerPanel
-	applyHorrorBevel(closeBtn, Color3.fromRGB(255, 80, 80), Color3.fromRGB(80, 0, 0))
+	applyHorrorBevel(closeBtn, Color3.fromRGB(255, 120, 120), Color3.fromRGB(100, 0, 0))
 
 	local bodyContainer = Instance.new("Frame")
 	bodyContainer.Size = UDim2.new(1, -12, 1, -68)
 	bodyContainer.Position = UDim2.new(0, 6, 0, 60)
-	bodyContainer.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	bodyContainer.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+	bodyContainer.BackgroundTransparency = 0.35
 	bodyContainer.BorderSizePixel = 0
+	bodyContainer.ZIndex = 3
 	bodyContainer.Parent = mainFrame
-	applyHorrorBevel(bodyContainer, Color3.fromRGB(50, 0, 0), accentColor)
+	applyHorrorBevel(bodyContainer, Color3.fromRGB(80, 0, 0), accentColor)
 
 	local isMinimized = false
 	minimizeBtn.MouseButton1Click:Connect(function()
@@ -228,7 +264,7 @@ function ClassicoLib:CreateWindow(config)
 		confirmFrame.Position = UDim2.new(0.5, -140, 0.5, -65)
 		confirmFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 		confirmFrame.BorderSizePixel = 0
-		confirmFrame.ZIndex = 10
+		confirmFrame.ZIndex = 30
 		confirmFrame.Parent = mainFrame
 		applyHorrorBevel(confirmFrame, Color3.fromRGB(255, 0, 0), Color3.fromRGB(100, 0, 0))
 
@@ -241,7 +277,7 @@ function ClassicoLib:CreateWindow(config)
 		msgLbl.Font = Enum.Font.Creepster
 		msgLbl.TextSize = 16
 		msgLbl.TextWrapped = true
-		msgLbl.ZIndex = 11
+		msgLbl.ZIndex = 31
 		msgLbl.Parent = confirmFrame
 
 		local yesBtn = Instance.new("TextButton")
@@ -253,7 +289,7 @@ function ClassicoLib:CreateWindow(config)
 		yesBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 		yesBtn.Font = Enum.Font.Creepster
 		yesBtn.TextSize = 16
-		yesBtn.ZIndex = 11
+		yesBtn.ZIndex = 31
 		yesBtn.Parent = confirmFrame
 		applyHorrorBevel(yesBtn, Color3.fromRGB(255, 100, 100), Color3.fromRGB(50, 0, 0))
 
@@ -266,7 +302,7 @@ function ClassicoLib:CreateWindow(config)
 		noBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
 		noBtn.Font = Enum.Font.Creepster
 		noBtn.TextSize = 16
-		noBtn.ZIndex = 11
+		noBtn.ZIndex = 31
 		noBtn.Parent = confirmFrame
 		applyHorrorBevel(noBtn, Color3.fromRGB(100, 100, 100), Color3.fromRGB(20, 20, 20))
 
@@ -300,16 +336,18 @@ function ClassicoLib:CreateWindow(config)
 		end
 	end)
 
-	-- 🔴 تعديل: تحويل شريط التبويبات إلى ScrollingFrame أفقي
+	-- 🔴 تعديل منطقة التبويبات إلى ScrollingFrame لدعم السحب الأفقي (Scroll Right/Left)
 	local tabBar = Instance.new("ScrollingFrame")
 	tabBar.Name = "TabBar"
-	tabBar.Size = UDim2.new(1, -12, 0, 32)
+	tabBar.Size = UDim2.new(1, -12, 0, 36)
 	tabBar.Position = UDim2.new(0, 6, 0, 6)
 	tabBar.BackgroundTransparency = 1
 	tabBar.BorderSizePixel = 0
 	tabBar.CanvasSize = UDim2.new(0, 0, 0, 0)
-	tabBar.ScrollBarThickness = 0 -- إخفاء شريط التمرير لمظهر أفضل
+	tabBar.ScrollBarThickness = 3
+	tabBar.ScrollBarImageColor3 = Color3.fromRGB(255, 50, 50)
 	tabBar.ScrollingDirection = Enum.ScrollingDirection.Horizontal
+	tabBar.ZIndex = 5
 	tabBar.Parent = bodyContainer
 
 	local tabLayout = Instance.new("UIListLayout")
@@ -318,31 +356,8 @@ function ClassicoLib:CreateWindow(config)
 	tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	tabLayout.Parent = tabBar
 
-	-- تحديث أبعاد القائمة تلقائياً عند إضافة تبويب جديد
 	tabLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 		tabBar.CanvasSize = UDim2.new(0, tabLayout.AbsoluteContentSize.X + 10, 0, 0)
-	end)
-
-	-- إمكانية السحب لليمين واليسار بالسحب المباشر
-	local tabDragging = false
-	local tabDragStart, startCanvasPos
-
-	tabBar.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			tabDragging = true
-			tabDragStart = input.Position
-			startCanvasPos = tabBar.CanvasPosition
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then tabDragging = false end
-			end)
-		end
-	end)
-
-	UserInputService.InputChanged:Connect(function(input)
-		if tabDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-			local delta = input.Position - tabDragStart
-			tabBar.CanvasPosition = Vector2.new(startCanvasPos.X - delta.X, 0)
-		end
 	end)
 
 	local tabPagesFolder = Instance.new("Folder")
@@ -357,26 +372,29 @@ function ClassicoLib:CreateWindow(config)
 		local currentOrder = tabCount
 
 		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(0, 120, 1, 0)
+		btn.Size = UDim2.new(0, 120, 1, -4)
 		btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+		btn.BackgroundTransparency = 0.2
 		btn.BorderSizePixel = 0
 		btn.Text = name
 		btn.TextColor3 = Color3.fromRGB(200, 200, 200)
 		btn.Font = Enum.Font.Creepster
 		btn.TextSize = 18
 		btn.LayoutOrder = currentOrder
+		btn.ZIndex = 6
 		btn.Parent = tabBar
-		applyHorrorBevel(btn, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+		applyHorrorBevel(btn, Color3.fromRGB(150, 0, 0), Color3.fromRGB(40, 0, 0))
 
 		local page = Instance.new("ScrollingFrame")
-		page.Size = UDim2.new(1, -12, 1, -50)
-		page.Position = UDim2.new(0, 6, 0, 44)
+		page.Size = UDim2.new(1, -12, 1, -52)
+		page.Position = UDim2.new(0, 6, 0, 46)
 		page.BackgroundTransparency = 1
 		page.BorderSizePixel = 0
 		page.CanvasSize = UDim2.new(0, 0, 0, 0)
 		page.ScrollBarThickness = 6
 		page.ScrollBarImageColor3 = accentColor
 		page.Visible = false
+		page.ZIndex = 5
 		page.Parent = tabPagesFolder
 
 		local pageLayout = Instance.new("UIListLayout")
@@ -396,7 +414,7 @@ function ClassicoLib:CreateWindow(config)
 			end
 			if activeTabPage then activeTabPage.Visible = false end
 
-			btn.BackgroundColor3 = Color3.fromRGB(140, 0, 0)
+			btn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
 			btn.TextColor3 = Color3.fromRGB(255, 255, 255)
 			page.Visible = true
 
@@ -405,7 +423,7 @@ function ClassicoLib:CreateWindow(config)
 		end)
 
 		if currentOrder == 1 then
-			btn.BackgroundColor3 = Color3.fromRGB(140, 0, 0)
+			btn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
 			btn.TextColor3 = Color3.fromRGB(255, 255, 255)
 			page.Visible = true
 			activeTabBtn = btn
@@ -417,14 +435,16 @@ function ClassicoLib:CreateWindow(config)
 		function TabObject:CreateButton(text, callback)
 			local button = Instance.new("TextButton")
 			button.Size = UDim2.new(1, -10, 0, 36)
-			button.BackgroundColor3 = Color3.fromRGB(45, 0, 0)
+			button.BackgroundColor3 = Color3.fromRGB(65, 0, 0)
+			button.BackgroundTransparency = 0.2
 			button.BorderSizePixel = 0
 			button.Text = text
-			button.TextColor3 = Color3.fromRGB(255, 180, 180)
+			button.TextColor3 = Color3.fromRGB(255, 200, 200)
 			button.Font = Enum.Font.Creepster
 			button.TextSize = 19
+			button.ZIndex = 6
 			button.Parent = page
-			applyHorrorBevel(button, accentColor, Color3.fromRGB(20, 0, 0))
+			applyHorrorBevel(button, accentColor, Color3.fromRGB(40, 0, 0))
 
 			button.MouseButton1Click:Connect(function()
 				clickSound:Play()
@@ -436,9 +456,11 @@ function ClassicoLib:CreateWindow(config)
 			local toggleFrame = Instance.new("Frame")
 			toggleFrame.Size = UDim2.new(1, -10, 0, 36)
 			toggleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			toggleFrame.BackgroundTransparency = 0.2
 			toggleFrame.BorderSizePixel = 0
+			toggleFrame.ZIndex = 6
 			toggleFrame.Parent = page
-			applyHorrorBevel(toggleFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+			applyHorrorBevel(toggleFrame, Color3.fromRGB(150, 0, 0), Color3.fromRGB(30, 0, 0))
 
 			local label = Instance.new("TextLabel")
 			label.Size = UDim2.new(1, -70, 1, 0)
@@ -449,6 +471,7 @@ function ClassicoLib:CreateWindow(config)
 			label.Font = Enum.Font.Creepster
 			label.TextSize = 18
 			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.ZIndex = 7
 			label.Parent = toggleFrame
 
 			local toggleBtn = Instance.new("TextButton")
@@ -460,6 +483,7 @@ function ClassicoLib:CreateWindow(config)
 			toggleBtn.TextColor3 = Color3.fromRGB(150, 150, 150)
 			toggleBtn.Font = Enum.Font.Creepster
 			toggleBtn.TextSize = 16
+			toggleBtn.ZIndex = 7
 			toggleBtn.Parent = toggleFrame
 			applyHorrorBevel(toggleBtn)
 
@@ -485,10 +509,12 @@ function ClassicoLib:CreateWindow(config)
 			local dropFrame = Instance.new("Frame")
 			dropFrame.Size = UDim2.new(1, -10, 0, 36)
 			dropFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			dropFrame.BackgroundTransparency = 0.2
 			dropFrame.BorderSizePixel = 0
 			dropFrame.ClipsDescendants = true
+			dropFrame.ZIndex = 6
 			dropFrame.Parent = page
-			applyHorrorBevel(dropFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+			applyHorrorBevel(dropFrame, Color3.fromRGB(150, 0, 0), Color3.fromRGB(30, 0, 0))
 
 			local label = Instance.new("TextLabel")
 			label.Size = UDim2.new(0.5, -10, 0, 36)
@@ -499,17 +525,19 @@ function ClassicoLib:CreateWindow(config)
 			label.Font = Enum.Font.Creepster
 			label.TextSize = 18
 			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.ZIndex = 7
 			label.Parent = dropFrame
 
 			local selectBtn = Instance.new("TextButton")
 			selectBtn.Size = UDim2.new(0.48, -10, 0, 26)
 			selectBtn.Position = UDim2.new(0.5, 0, 0, 5)
-			selectBtn.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
+			selectBtn.BackgroundColor3 = Color3.fromRGB(70, 0, 0)
 			selectBtn.BorderSizePixel = 0
 			selectBtn.Text = "Select..."
 			selectBtn.TextColor3 = Color3.fromRGB(255, 200, 200)
 			selectBtn.Font = Enum.Font.Creepster
 			selectBtn.TextSize = 16
+			selectBtn.ZIndex = 7
 			selectBtn.Parent = dropFrame
 			applyHorrorBevel(selectBtn)
 
@@ -517,6 +545,7 @@ function ClassicoLib:CreateWindow(config)
 			optionContainer.Size = UDim2.new(1, -20, 0, #options * 30)
 			optionContainer.Position = UDim2.new(0, 10, 0, 40)
 			optionContainer.BackgroundTransparency = 1
+			optionContainer.ZIndex = 7
 			optionContainer.Parent = dropFrame
 
 			local optLayout = Instance.new("UIListLayout")
@@ -532,8 +561,9 @@ function ClassicoLib:CreateWindow(config)
 				optBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
 				optBtn.Font = Enum.Font.Creepster
 				optBtn.TextSize = 15
+				optBtn.ZIndex = 8
 				optBtn.Parent = optionContainer
-				applyHorrorBevel(optBtn, Color3.fromRGB(60, 0, 0), Color3.fromRGB(10, 0, 0))
+				applyHorrorBevel(optBtn, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
 
 				optBtn.MouseButton1Click:Connect(function()
 					clickSound:Play()
@@ -563,9 +593,11 @@ function ClassicoLib:CreateWindow(config)
 			local sliderFrame = Instance.new("Frame")
 			sliderFrame.Size = UDim2.new(1, -10, 0, 45)
 			sliderFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			sliderFrame.BackgroundTransparency = 0.2
 			sliderFrame.BorderSizePixel = 0
+			sliderFrame.ZIndex = 6
 			sliderFrame.Parent = page
-			applyHorrorBevel(sliderFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+			applyHorrorBevel(sliderFrame, Color3.fromRGB(150, 0, 0), Color3.fromRGB(30, 0, 0))
 
 			local label = Instance.new("TextLabel")
 			label.Size = UDim2.new(0.6, 0, 0, 22)
@@ -576,6 +608,7 @@ function ClassicoLib:CreateWindow(config)
 			label.Font = Enum.Font.Creepster
 			label.TextSize = 17
 			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.ZIndex = 7
 			label.Parent = sliderFrame
 
 			local valLbl = Instance.new("TextLabel")
@@ -587,6 +620,7 @@ function ClassicoLib:CreateWindow(config)
 			valLbl.Font = Enum.Font.Creepster
 			valLbl.TextSize = 17
 			valLbl.TextXAlignment = Enum.TextXAlignment.Right
+			valLbl.ZIndex = 7
 			valLbl.Parent = sliderFrame
 
 			local barBack = Instance.new("Frame")
@@ -594,13 +628,15 @@ function ClassicoLib:CreateWindow(config)
 			barBack.Position = UDim2.new(0, 10, 0, 28)
 			barBack.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 			barBack.BorderSizePixel = 0
+			barBack.ZIndex = 7
 			barBack.Parent = sliderFrame
-			applyHorrorBevel(barBack, Color3.fromRGB(40, 0, 0), Color3.fromRGB(80, 0, 0))
+			applyHorrorBevel(barBack, Color3.fromRGB(80, 0, 0), Color3.fromRGB(120, 0, 0))
 
 			local fillBar = Instance.new("Frame")
 			fillBar.Size = UDim2.new(math.clamp((default - min) / (max - min), 0, 1), 0, 1, 0)
 			fillBar.BackgroundColor3 = accentColor
 			fillBar.BorderSizePixel = 0
+			fillBar.ZIndex = 8
 			fillBar.Parent = barBack
 
 			local isSliding = false
@@ -640,9 +676,11 @@ function ClassicoLib:CreateWindow(config)
 			local inputFrame = Instance.new("Frame")
 			inputFrame.Size = UDim2.new(1, -10, 0, 36)
 			inputFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			inputFrame.BackgroundTransparency = 0.2
 			inputFrame.BorderSizePixel = 0
+			inputFrame.ZIndex = 6
 			inputFrame.Parent = page
-			applyHorrorBevel(inputFrame, Color3.fromRGB(100, 0, 0), Color3.fromRGB(20, 0, 0))
+			applyHorrorBevel(inputFrame, Color3.fromRGB(150, 0, 0), Color3.fromRGB(30, 0, 0))
 
 			local label = Instance.new("TextLabel")
 			label.Size = UDim2.new(0.5, -10, 1, 0)
@@ -653,6 +691,7 @@ function ClassicoLib:CreateWindow(config)
 			label.Font = Enum.Font.Creepster
 			label.TextSize = 18
 			label.TextXAlignment = Enum.TextXAlignment.Left
+			label.ZIndex = 7
 			label.Parent = inputFrame
 
 			local textBox = Instance.new("TextBox")
@@ -666,8 +705,9 @@ function ClassicoLib:CreateWindow(config)
 			textBox.TextColor3 = Color3.fromRGB(255, 200, 200)
 			textBox.Font = Enum.Font.Creepster
 			textBox.TextSize = 16
+			textBox.ZIndex = 7
 			textBox.Parent = inputFrame
-			applyHorrorBevel(textBox, Color3.fromRGB(80, 0, 0), Color3.fromRGB(30, 0, 0))
+			applyHorrorBevel(textBox, Color3.fromRGB(120, 0, 0), Color3.fromRGB(40, 0, 0))
 
 			textBox.FocusLost:Connect(function(enterPressed)
 				clickSound:Play()
@@ -684,6 +724,7 @@ function ClassicoLib:CreateWindow(config)
 	introFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	introFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 	introFrame.BorderSizePixel = 0
+	introFrame.ZIndex = 50
 	introFrame.Parent = screenGui
 	applyHorrorBevel(introFrame, accentColor, Color3.fromRGB(100, 0, 0))
 
@@ -696,6 +737,7 @@ function ClassicoLib:CreateWindow(config)
 	logoText.TextSize = 36
 	logoText.TextStrokeTransparency = 0
 	logoText.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	logoText.ZIndex = 51
 	logoText.Parent = introFrame
 
 	task.spawn(function()
